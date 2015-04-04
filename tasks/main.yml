@@ -1,0 +1,29 @@
+---
+- name: install dns
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=latest"
+  with_items:
+    - bind
+    - bind-utils
+
+- name: enable dns
+  service: name=named enabled=yes
+
+- name: apply zones
+  copy: src={{ item }} dest=/etc/named/ owner=root mode=0644
+  with_fileglob:
+    - "{{ hostname }}/zones/db.*"
+  notify:
+    - restart named
+
+- name: apply local zones config
+  copy: src={{ hostname }}/config/local.zones dest=/etc/named/local.zones
+  notify:
+    - reload named
+
+- name: apply base config
+  copy: src={{ hostname }}/config/named.conf dest=/etc/named.conf
+  notify:
+    - restart named
+
+- name: run dns
+  service: name=named state=started

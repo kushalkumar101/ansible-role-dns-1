@@ -1,0 +1,17 @@
+$TTL 180
+glenn-s.eu.          IN SOA    glenn-s.eu. sacha.tremoureux.fr. (
+                         2015011403 ; serial
+                         86400      ; refresh (1 day)
+                         3600       ; retry (1 hour)
+                         3600000    ; expire (5 weeks 6 days 16 hours)
+                         300        ; minimum (5 minutes)
+                     )
+
+                     NS   ns1.beastie.eu.
+                     NS   ns2.beastie.eu.
+										 
+                     A                      5.9.41.52
+                     AAAA                   2a01:4f8:161:3027::
+                     IN TXT                 "v=spf1 ip4:5.9.41.52 ip6:2a01:4f8:161:3027:4224::1 -all"
+                     IN SPF                 "v=spf1 ip4:5.9.41.52 ip6:2a01:4f8:161:3027:4224::1 -all"										 
+                     MX             1       smtp.beastie.eu.															 
