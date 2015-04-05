@@ -1,0 +1,8 @@
+---
+dns_packages:
+    - bind9
+    - bind9utils
+    - dnsutils
+dns_service: bind9
+dns_conf_dir: '/etc/bind/'
+dns_named_conf: "{{ dns_conf_dir }}/named.conf.options"

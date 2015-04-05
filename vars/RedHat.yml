@@ -1,0 +1,8 @@
+---
+dns_packages:
+    - bind
+    - bind-utils
+
+dns_service: named
+dns_conf_dir: '/etc/named/'
+dns_named_conf: '/etc/named.conf'

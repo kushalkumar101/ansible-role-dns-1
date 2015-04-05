@@ -1,29 +1,39 @@
 ---
+- name: include os specific
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: install dns
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state=latest"
-  with_items:
-    - bind
-    - bind-utils
+  action: "{{ ansible_pkg_mgr }} name={{ dns_packages | join(',') }} state=latest"
 
 - name: enable dns
-  service: name=named enabled=yes
+  service:
+    name: "{{ dns_service }}"
+    enabled: yes
 
 - name: apply zones
-  copy: src={{ item }} dest=/etc/named/ owner=root mode=0644
+  copy:
+    src: "{{ item }}"
+    dest: "{{ dns_conf_dir }}"
+    owner: root
+    mode: 0644
   with_fileglob:
-    - "{{ hostname }}/zones/db.*"
+    - "host_files/{{ ansible_nodename }}/dns/zones/db.*"
+  notify:
+    - restart named
+
+- name: apply base config
+  template:
+    src: "host_files/{{ ansible_nodename }}/dns/config/named.conf.j2"
+    dest: "{{ dns_named_conf }}"
   notify:
     - restart named
 
 - name: apply local zones config
-  copy: src={{ hostname }}/config/local.zones dest=/etc/named/local.zones
+  template:
+    src: "host_files/{{ ansible_nodename }}/dns/config/local.zones.j2"
+    dest: "{{ dns_conf_dir }}/local.zones"
   notify:
     - reload named
 
-- name: apply base config
-  copy: src={{ hostname }}/config/named.conf dest=/etc/named.conf
-  notify:
-    - restart named
-
 - name: run dns
-  service: name=named state=started
+  service: name={{ dns_service }} state=started

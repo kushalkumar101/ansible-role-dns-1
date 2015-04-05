@@ -1,6 +1,6 @@
 ---
 - name: restart named
-  service: name=named state=restarted
+  service: name={{ dns_service }} state=restarted
 
 - name: reload named
-  service: name=named state=reloaded
+  service: name={{ dns_service }} state=reloaded
