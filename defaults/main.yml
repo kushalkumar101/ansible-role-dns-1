@@ -4,4 +4,5 @@ dns_forwarders:
 dns_allow_recursion:
     - '10.0.0.0/8'
     - '127.0.0.0/8'
+    - '127.0.0.1'
     - '::1'
