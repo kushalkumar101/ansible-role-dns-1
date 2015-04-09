@@ -17,7 +17,7 @@
     owner: root
     mode: 0644
   with_fileglob:
-    - "host_files/{{ ansible_nodename }}/dns/zones/db.*"
+    - "../../../host_files/{{ ansible_nodename }}/dns/zones/db.*"
   notify:
     - restart named
 
