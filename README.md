@@ -7,8 +7,10 @@ It take a template you will describe in `host_files/<ansible_nodename>/dns/confi
  - Dns forwarders
  - Dns recursion
 
-You need a `local.zones` template file in `host_files/<ansible_nodename/dns/config/local.zones.j2` with correct BIND9 configuration.
+You need a `local.zones` template file in `host_files/<ansible_nodename>/dns/config/local.zones.j2` with correct BIND9 configuration.
 
+
+Store your zones in `host_files/<ansible_nodename>/dns/zones/db.<zone_name>`.
 
 
 As it is only templates, feel free to do what you want with them.
